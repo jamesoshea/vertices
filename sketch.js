@@ -1,9 +1,10 @@
-const vertices = []
+let vertices = []
 
 let w
 let h
 
 const velocity = 0.1
+
 function setup() {
 
 	w = window.innerWidth
@@ -12,16 +13,14 @@ function setup() {
 	createCanvas(w, h)
 	background(51)
 
-	for(let i = 0; i < 20; i++) {
+
+	for(let i = 0; i < 40; i++) {
 		vertices.push(new Vertex(random(w), random(h)))
 	}
 
 	vertices.forEach((vertex) => {
 		vertex.neighbours = vertex.getNeighbours()
-		console.log(vertex.neighbours)
 	})
-
-	console.dir(vertices)
 }
 
 function draw() {
@@ -42,37 +41,29 @@ function draw() {
 	})
 }
 
-class Vertex {
+function Vertex(x, y) {
 
-	constructor(x, y) {
-		this.x = x
-		this.y = y
-	}
+	this.x = x
+	this.y = y
+	this.neighbours = []
 
-	show() {
+	this.show = function() {
 		fill(240)
 		ellipse(this.x, this.y, 5, 5)
 	}
 
-	getNeighbours() {
-		let n = vertices.sort((firstNeighbour , nextNeighbour) => {
-			return sqrt(pow(this.x - firstNeighbour.x, 2) + pow(this.y - firstNeighbour.y, 2)) - sqrt(pow(this.x - nextNeighbour.x, 2) + pow(this.y - nextNeighbour.y, 2))
-		}).slice(0, 5)
-		console.log(n)
-		return(n)
+	this.getNeighbours = function() {
+		let n = vertices.slice().sort((firstNeighbour , nextNeighbour) => {
+			d1 = createVector(this.x - firstNeighbour.x, this.y - firstNeighbour.y).mag()
+			d2 = createVector(this.x - nextNeighbour.x, this.y - nextNeighbour.y).mag()			
+			return d1 - d2
+		}).slice(1, 5)
+		return n
 	}
 
-	move() {
-		if (this.x > mouseX) {
-			this.x -= velocity
-		} else {
-			this.x += velocity
-		}
-		if (this.y > mouseY) {
-			this.y -= velocity
-		} else {
-			this.y += velocity
-		}
+	this.move = function() {
+		random(1) > 0.5 ? this.y += 1 : this.y -= velocity
+		random(1) > 0.5 ? this.x += 1 : this.x -= velocity
 	}
 }
 
