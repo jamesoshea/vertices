@@ -3,7 +3,7 @@ let vertices = []
 let w
 let h
 
-const velocity = 0.1
+const velocity = 0.01
 
 function setup() {
 
@@ -37,7 +37,7 @@ function draw() {
 			line(vertex.x, vertex.y, neighbour.x, neighbour.y)
 		})
 		vertex.show()
-		// vertex.move()
+		vertex.move()
 	})
 }
 
@@ -62,8 +62,14 @@ function Vertex(x, y) {
 	}
 
 	this.move = function() {
-		random(1) > 0.5 ? this.y += 1 : this.y -= velocity
-		random(1) > 0.5 ? this.x += 1 : this.x -= velocity
+
+		if((this.x < (w -10) && this. x > 10) && (this.y < (h -10) && this. y > 10)) {
+			let dx = this.x - mouseX
+			let dy = this.y - mouseY
+	
+			abs(dx) < 50 ? this.x += velocity * dx : this.x += 0
+			abs(dy) < 50 ? this.y += velocity * dy : this.y += 0
+		}
 	}
 }
 
