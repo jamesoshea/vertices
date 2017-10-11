@@ -1,9 +1,7 @@
 let vertices = []
-
 let w
 let h
-
-const velocity = 0.01
+const velocity = 10
 
 function setup() {
 
@@ -62,13 +60,13 @@ function Vertex(x, y) {
 	}
 
 	this.move = function() {
-
-		if((this.x < (w -10) && this. x > 10) && (this.y < (h -10) && this. y > 10)) {
-			let dx = this.x - mouseX
-			let dy = this.y - mouseY
-	
-			abs(dx) < 50 ? this.x += velocity * dx : this.x += 0
-			abs(dy) < 50 ? this.y += velocity * dy : this.y += 0
+		//fix this
+		let dx = this.x - mouseX
+		let dy = this.y - mouseY
+		
+		if(abs(dx) < 200 && abs(dy) < 200) {
+			this.x += (velocity - dx)
+			this.y += (velocity - dy)
 		}
 	}
 }
