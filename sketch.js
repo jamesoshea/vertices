@@ -37,8 +37,9 @@ function draw() {
 		})
 		vertex.show()
 		vertex.move()
-		//change direction (roughly) every two seconds
-		if(frameCount % 240 === 0) {
+		//change direction (roughly) every ten seconds
+		if(frameCount % 600 === 0) {
+			vertex.neighbours = vertex.getNeighbours()
 			vertex.changeDir()
 		}
 	})
