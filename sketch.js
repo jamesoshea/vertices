@@ -14,7 +14,7 @@ function setup() {
 
 
 	for(let i = 0; i < 200; i++) {
-		vertices.push(new Vertex(random(50, w  - nodeWidth/2), random(h - nodeWidth/2)))
+		vertices.push(new Vertex(random(51 + nodeWidth/2, w  - nodeWidth/2), random(nodeWidth/2, h - nodeWidth/2)))
 	}
 
 	vertices.forEach((vertex) => {
