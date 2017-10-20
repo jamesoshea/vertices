@@ -1,7 +1,8 @@
 let vertices = []
 let w
 let h
-const velocity = 10
+
+const nodeWidth = 5
 
 function setup() {
 
@@ -13,7 +14,7 @@ function setup() {
 
 
 	for(let i = 0; i < 200; i++) {
-		vertices.push(new Vertex(random(w), random(h)))
+		vertices.push(new Vertex(random(50, w  - nodeWidth/2), random(h - nodeWidth/2)))
 	}
 
 	vertices.forEach((vertex) => {
@@ -36,7 +37,8 @@ function draw() {
 		})
 		vertex.show()
 		vertex.move()
-		if(frameCount % 120 === 0) {
+		//change direction (roughly) every two seconds
+		if(frameCount % 240 === 0) {
 			vertex.changeDir()
 		}
 	})
@@ -51,7 +53,7 @@ function Vertex(x, y) {
 
 	this.show = function() {
 		fill(240)
-		ellipse(this.x, this.y, 5, 5)
+		ellipse(this.x, this.y, nodeWidth, nodeWidth)
 	}
 
 	//find five nearest nodes using pythagorean theorum
@@ -66,16 +68,15 @@ function Vertex(x, y) {
 
 	this.move = function() {
 		//don't go past the edges
-		if (this.x <= 0 || this.x >= w) {
+		if (this.x <= 50 + nodeWidth/2 || this.x >= w - nodeWidth/2) {
 			this.dir.x = -this.dir.x
-		} else if (this.y <= 0 || this.y >= h) {
+		} else if (this.y <= 0 + nodeWidth/2 || this.y >= h - nodeWidth/2) {
 			this.dir.y = -this.dir.y
 		}
 		//add the direction vector to the position
-		this.x += this.dir.x / 10
-		this.y += this.dir.y / 10
+		this.x += this.dir.x / 6
+		this.y += this.dir.y / 6
 	}
-	//chnage direction (roughly) every two seconds
 	this.changeDir = function() {
 		this.dir = createVector(random(-1, 1), random(-1, 1))
 	}
