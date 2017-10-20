@@ -36,6 +36,10 @@ function draw() {
 		})
 		vertex.show()
 		vertex.move()
+		if(frameCount % 120 === 0) {
+			vertex.changeDir()
+		}
+		console.log(vertex.dir)
 	})
 }
 
@@ -44,6 +48,7 @@ function Vertex(x, y) {
 	this.x = x
 	this.y = y
 	this.neighbours = []
+	this.dir = createVector(random(-1, 1), random(-1, 1))
 
 	this.show = function() {
 		fill(240)
@@ -52,22 +57,20 @@ function Vertex(x, y) {
 
 	this.getNeighbours = function() {
 		let n = vertices.slice().sort((firstNeighbour , nextNeighbour) => {
-			d1 = createVector(this.x - firstNeighbour.x, this.y - firstNeighbour.y).mag()
-			d2 = createVector(this.x - nextNeighbour.x, this.y - nextNeighbour.y).mag()			
+			const d1 = createVector(this.x - firstNeighbour.x, this.y - firstNeighbour.y).mag()
+			const d2 = createVector(this.x - nextNeighbour.x, this.y - nextNeighbour.y).mag()			
 			return d1 - d2
 		}).slice(1, 5)
 		return n
 	}
 
 	this.move = function() {
-		//fix this
-		let dx = this.x - mouseX
-		let dy = this.y - mouseY
-		
-		if(abs(dx) < 200 && abs(dy) < 200) {
-			this.x += (velocity - dx)
-			this.y += (velocity - dy)
-		}
+		this.x += this.dir.x
+		this.y += this.dir.y
+	}
+
+	this.changeDir = function() {
+		this.dir = createVector(random(-1, 1), random(-1, 1))
 	}
 }
 
