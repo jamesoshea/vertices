@@ -12,7 +12,7 @@ function setup() {
 	background(51)
 
 
-	for(let i = 0; i < 40; i++) {
+	for(let i = 0; i < 200; i++) {
 		vertices.push(new Vertex(random(w), random(h)))
 	}
 
@@ -39,7 +39,6 @@ function draw() {
 		if(frameCount % 120 === 0) {
 			vertex.changeDir()
 		}
-		console.log(vertex.dir)
 	})
 }
 
@@ -55,6 +54,7 @@ function Vertex(x, y) {
 		ellipse(this.x, this.y, 5, 5)
 	}
 
+	//find five nearest nodes using pythagorean theorum
 	this.getNeighbours = function() {
 		let n = vertices.slice().sort((firstNeighbour , nextNeighbour) => {
 			const d1 = createVector(this.x - firstNeighbour.x, this.y - firstNeighbour.y).mag()
@@ -65,10 +65,17 @@ function Vertex(x, y) {
 	}
 
 	this.move = function() {
-		this.x += this.dir.x
-		this.y += this.dir.y
+		//don't go past the edges
+		if (this.x <= 0 || this.x >= w) {
+			this.dir.x = -this.dir.x
+		} else if (this.y <= 0 || this.y >= h) {
+			this.dir.y = -this.dir.y
+		}
+		//add the direction vector to the position
+		this.x += this.dir.x / 10
+		this.y += this.dir.y / 10
 	}
-
+	//chnage direction (roughly) every two seconds
 	this.changeDir = function() {
 		this.dir = createVector(random(-1, 1), random(-1, 1))
 	}
