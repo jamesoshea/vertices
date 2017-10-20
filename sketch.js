@@ -44,20 +44,20 @@ function draw() {
 	})
 }
 
-function Vertex(x, y) {
-
-	this.x = x
-	this.y = y
-	this.neighbours = []
-	this.dir = createVector(random(-1, 1), random(-1, 1))
-
-	this.show = function() {
+class Vertex {
+	constructor(x, y) {
+		this.x = x
+		this.y = y
+		this.neighbours = []
+		this.dir = createVector(random(-1, 1), random(-1, 1))
+	}
+	show() {
 		fill(240)
 		ellipse(this.x, this.y, nodeWidth, nodeWidth)
 	}
 
 	//find five nearest nodes using pythagorean theorum
-	this.getNeighbours = function() {
+	getNeighbours() {
 		let n = vertices.slice().sort((firstNeighbour , nextNeighbour) => {
 			const d1 = createVector(this.x - firstNeighbour.x, this.y - firstNeighbour.y).mag()
 			const d2 = createVector(this.x - nextNeighbour.x, this.y - nextNeighbour.y).mag()			
@@ -66,7 +66,7 @@ function Vertex(x, y) {
 		return n
 	}
 
-	this.move = function() {
+	move() {
 		//don't go past the edges
 		if (this.x <= 50 + nodeWidth/2 || this.x >= w - nodeWidth/2) {
 			this.dir.x = -this.dir.x
@@ -77,7 +77,7 @@ function Vertex(x, y) {
 		this.x += this.dir.x / 6
 		this.y += this.dir.y / 6
 	}
-	this.changeDir = function() {
+	changeDir() {
 		this.dir = createVector(random(-1, 1), random(-1, 1))
 	}
 }
